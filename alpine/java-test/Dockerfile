@@ -13,9 +13,9 @@ ENV LANG C.UTF-8
 
 # Install useful packages
 RUN apk --no-cache add \
-	bash binutils coreutils file grep nano strace sudo tar unzip
+	bash binutils coreutils file grep nano procps strace sudo tar unzip
 
-# Install latest OpenJDK 8 (8.212.04-r0 as of 5/5/19)
+# Install packaged OpenJDK 8
 RUN apk --no-cache add openjdk8
 
 # Install gradle
@@ -24,14 +24,8 @@ RUN apk --no-cache add gradle
 # Install OpenJDK 7
 RUN apk --no-cache add openjdk7
 
-# Install OpenJDK 9
-RUN apk --no-cache add openjdk9 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
-
-# Install OpenJDK 10
-RUN apk --no-cache add openjdk10 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
-
-# Install OpenJDK 11
-RUN apk --no-cache add openjdk11 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+# Install OpenJDK 9, 10 and 11
+RUN apk --no-cache add openjdk9 openjdk10 openjdk11 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 # Install patched gdb for OpenJDK debugging
 RUN set -ex && \
@@ -46,7 +40,7 @@ RUN set -ex && \
 # Download OpenJDK 8 versions
 RUN set -ex && \
 	cd /usr/lib/jvm && \
-        for JAVA_VER in 8.131.11-r2 8.151.12-r0 8.171.11-r0 8.181.13-r0 8.191.12-r0 8.201.08-r0 8.201.08-r1; \
+        for JAVA_VER in 8.131.11-r2 8.151.12-r0 8.171.11-r0 8.181.13-r0 8.191.12-r0 8.201.08-r0 8.201.08-r1 8.212.04-r0 8.222.10-r1; \
 	do \
 		ZIP_NAME=java-1.8-openjdk-$JAVA_VER.tar.gz && \
 		wget https://github.com/shaharv/alpine-openjdk-builds/releases/download/1.8/$ZIP_NAME && \
